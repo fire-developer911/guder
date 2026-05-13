@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Guder Hosting — Premium Minecraft Servers</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="bg-layer">
+  <img src="background1.png" alt="" class="bg-img" onerror="this.style.display='none'"/>
+  <div class="bg-overlay"></div>
+  <div class="bg-grid"></div>
+  <div class="particles" id="particles"></div>
+</div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="nav-left">
+    <div class="hamburger" id="menuToggle">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">Guder<span class="accent">MC</span></span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#plans">Plans</a>
+    <a href="#features">Features</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <span class="status-dot"></span><span class="status-text">All Systems Online</span>
+    <button class="btn-ghost" id="loginBtn">Login</button>
+    <button class="btn-primary" id="registerBtn">Get Started</button>
+  </div>
+</nav>
+
+<!-- SIDE MENU (logged out) -->
+<div class="side-menu" id="sideMenu">
+  <div class="side-menu-inner">
+    <div class="side-profile-area" id="sideProfileArea">
+      <div class="side-avatar">?</div>
+      <div class="side-name">Guest</div>
+      <div class="side-role">Not logged in</div>
+    </div>
+    <nav class="side-nav" id="sideNav">
+      <a href="#plans" class="side-link" onclick="closeSideMenu()"><span>📦</span> Plans</a>
+      <a href="#features" class="side-link" onclick="closeSideMenu()"><span>⚡</span> Features</a>
+      <a href="#faq" class="side-link" onclick="closeSideMenu()"><span>❓</span> FAQ</a>
+      <div class="side-divider"></div>
+      <a href="#" class="side-link" onclick="openLogin()"><span>🔑</span> Login</a>
+      <a href="#" class="side-link" onclick="openRegister()"><span>✨</span> Register</a>
+    </nav>
+    <div class="side-footer">
+      <span>© 2025 Guder Hosting</span>
+    </div>
+  </div>
+</div>
+<div class="side-backdrop" id="sideBackdrop" onclick="closeSideMenu()"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⚡ Next-Gen Minecraft Hosting</div>
+  <h1 class="hero-title">
+    <span class="line1">Deploy Your</span>
+    <span class="line2">Minecraft <span class="gradient-text">Empire</span></span>
+    <span class="line3">In Minutes.</span>
+  </h1>
+  <p class="hero-sub">High-performance servers with instant setup, DDoS protection,<br/>and 99.9% uptime. Built for serious players.</p>
+  <div class="hero-cta">
+    <button class="btn-hero" onclick="document.getElementById('plans').scrollIntoView({behavior:'smooth'})">View Plans <span>→</span></button>
+    <button class="btn-hero-ghost">Watch Demo</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">2,400+</span><span class="stat-label">Active Servers</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num">99.9%</span><span class="stat-label">Uptime SLA</span></div>
+    <div class="stat-div"></div>
+    <div class="stat"><span class="stat-num">&lt;10ms</span><span class="stat-label">Avg Latency</span></div>
+  </div>
+</section>
+
+<!-- PLANS -->
+<section class="plans-section" id="plans">
+  <div class="section-label">PRICING</div>
+  <h2 class="section-title">Choose Your <span class="gradient-text">Plan</span></h2>
+  <p class="section-sub">All plans include DDoS protection, instant deployment, and Discord support.</p>
+
+  <div class="plans-grid">
+    <!-- FREE -->
+    <div class="plan-card" data-plan="free">
+      <div class="plan-header">
+        <div class="plan-badge free-badge">FREE</div>
+        <h3 class="plan-name">Starter</h3>
+        <div class="plan-price"><span class="price-amount">$0</span><span class="price-period">/month</span></div>
+        <p class="plan-desc">Perfect for testing your ideas</p>
+      </div>
+      <ul class="plan-features">
+        <li><span class="feat-icon">🧠</span><span><strong>2 GB</strong> RAM</span></li>
+        <li><span class="feat-icon">💾</span><span><strong>10 GB</strong> SSD Storage</span></li>
+        <li><span class="feat-icon">👥</span><span><strong>Unlimited</strong> Players</span></li>
+        <li><span class="feat-icon">🔄</span><span><strong>1</strong> Backup Slot</span></li>
+        <li><span class="feat-icon">💬</span><span>Discord Support</span></li>
+        <li class="feat-disabled"><span class="feat-icon">🌐</span><span>Custom Domain</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-ghost" onclick="openRegister()">Start Free</button>
+    </div>
+
+    <!-- PRO -->
+    <div class="plan-card plan-featured" data-plan="pro">
+      <div class="plan-popular-tag">MOST POPULAR</div>
+      <div class="plan-header">
+        <div class="plan-badge pro-badge">PRO</div>
+        <h3 class="plan-name">Professional</h3>
+        <div class="plan-price"><span class="price-amount">$2</span><span class="price-period">/month</span></div>
+        <p class="plan-desc">For growing communities</p>
+      </div>
+      <ul class="plan-features">
+        <li><span class="feat-icon">🧠</span><span><strong>4 GB</strong> RAM</span></li>
+        <li><span class="feat-icon">💾</span><span><strong>20 GB</strong> SSD Storage</span></li>
+        <li><span class="feat-icon">🌐</span><span><strong>Custom</strong> Domain</span></li>
+        <li><span class="feat-icon">👥</span><span><strong>Unlimited</strong> Players</span></li>
+        <li><span class="feat-icon">🔄</span><span><strong>2</strong> Backup Slots</span></li>
+        <li><span class="feat-icon">💬</span><span>Priority Discord Support</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-primary" onclick="openRegister()">Get Pro</button>
+    </div>
+
+    <!-- ULTIMATE -->
+    <div class="plan-card plan-ultimate" data-plan="ultimate">
+      <div class="plan-header">
+        <div class="plan-badge ult-badge">ULTIMATE</div>
+        <h3 class="plan-name">Ultimate</h3>
+        <div class="plan-price"><span class="price-amount">$8</span><span class="price-period">/month</span></div>
+        <p class="plan-desc">Unlimited power, zero limits</p>
+      </div>
+      <ul class="plan-features">
+        <li><span class="feat-icon">🧠</span><span><strong>8 GB</strong> RAM</span></li>
+        <li><span class="feat-icon">💾</span><span><strong>Unlimited</strong> Storage</span></li>
+        <li><span class="feat-icon">🌐</span><span><strong>Custom</strong> Domain</span></li>
+        <li><span class="feat-icon">👥</span><span><strong>Unlimited</strong> Players</span></li>
+        <li><span class="feat-icon">🔄</span><span><strong>Unlimited</strong> Backups</span></li>
+        <li><span class="feat-icon">💬</span><span>VIP Discord Support</span></li>
+      </ul>
+      <button class="plan-btn plan-btn-ultimate" onclick="openRegister()">Go Ultimate</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-label">FEATURES</div>
+  <h2 class="section-title">Built for <span class="gradient-text">Performance</span></h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feat-card-icon">🛡️</div>
+      <h4>DDoS Protection</h4>
+      <p>Enterprise-grade protection keeps your server online even under heavy attack.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">⚡</div>
+      <h4>NVMe SSD Storage</h4>
+      <p>Blazing fast NVMe drives for world loading and chunk generation at peak speed.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">🌍</div>
+      <h4>Global Network</h4>
+      <p>Servers across multiple regions for the lowest latency wherever your players are.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">🔄</div>
+      <h4>Automatic Backups</h4>
+      <p>Scheduled backups with one-click restore. Never lose your world again.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">📊</div>
+      <h4>Live Console</h4>
+      <p>Real-time server console with full command execution from your browser.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feat-card-icon">🔧</div>
+      <h4>Plugin Support</h4>
+      <p>One-click install for hundreds of plugins and mods from your control panel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title">Common <span class="gradient-text">Questions</span></h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How do I get an account?</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Join our Discord server and open a ticket requesting an account. Our team will set you up within 24 hours.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>How long does server creation take?</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a">After submitting your server request, our team will deploy it within 1–2 business days. You'll be notified on Discord.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can I upgrade my plan later?</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Yes! You can upgrade at any time from your control panel. Contact Discord support and we'll handle the migration.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>What Minecraft versions do you support?</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a">We support all major versions from 1.8 to the latest release. Vanilla, Paper, Spigot, Forge, Fabric, and BungeeCord are all available.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)"><span>Can I have multiple servers?</span><span class="faq-arrow">▾</span></div>
+      <div class="faq-a">Each account can have one free server. Pro and Ultimate servers are unlimited — create as many as you need!</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">Guder<span class="accent">MC</span></div>
+  <p class="footer-sub">Premium Minecraft Hosting — Engineered for Performance</p>
+  <div class="footer-links">
+    <a href="#">Discord</a>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+    <a href="#">Status</a>
+  </div>
+  <p class="footer-copy">© 2025 Guder Hosting. All rights reserved.</p>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModals()">✕</button>
+    <div class="modal-icon">🔑</div>
+    <h2 class="modal-title">Welcome Back</h2>
+    <p class="modal-sub">Sign in to your Guder account</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUsername" placeholder="your_username" class="form-input"/>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" class="form-input"/>
+    </div>
+    <div class="form-error" id="loginError"></div>
+    <button class="btn-primary btn-full" id="loginSubmit" onclick="doLogin()">Sign In</button>
+    <p class="modal-switch">Don't have an account? <a href="#" onclick="openRegister()">Get one on Discord</a></p>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModals()">✕</button>
+    <div class="modal-icon discord-icon">💬</div>
+    <h2 class="modal-title">Create Account</h2>
+    <p class="modal-sub">Accounts are created through our Discord server</p>
+    <div class="discord-box">
+      <div class="discord-step"><span class="step-num">1</span><span>Join our Discord server</span></div>
+      <div class="discord-step"><span class="step-num">2</span><span>Go to <code>#request-account</code> channel</span></div>
+      <div class="discord-step"><span class="step-num">3</span><span>Open a ticket and request an account</span></div>
+      <div class="discord-step"><span class="step-num">4</span><span>Our team sets you up within 24h</span></div>
+    </div>
+    <a href="https://discord.gg/your-server" target="_blank" class="btn-primary btn-full discord-btn">Join Discord →</a>
+    <p class="modal-switch">Already have an account? <a href="#" onclick="openLogin()">Sign in</a></p>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

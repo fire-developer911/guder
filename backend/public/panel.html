@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel — Guder Hosting</title>
+  <link rel="stylesheet" href="css/panel.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="panel-bg"></div>
+<div class="panel-grid"></div>
+
+<div class="panel-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="/" class="sidebar-logo">
+      <span class="sidebar-logo-icon">⬡</span>
+      <span class="sidebar-logo-text">Guder<span>MC</span></span>
+    </a>
+
+    <div class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">MAIN</div>
+        <button class="sidebar-link active" onclick="switchTab('servers')" id="tab-btn-servers">
+          <span class="nav-icon">🗄️</span> Servers
+        </button>
+      </div>
+
+      <div class="sidebar-section" id="server-sub-nav" style="display:none;">
+        <div class="sidebar-section-label" id="sub-server-name">SERVER</div>
+        <button class="sidebar-link" onclick="switchTab('console')" id="tab-btn-console">
+          <span class="nav-icon">💻</span> Console
+        </button>
+        <button class="sidebar-link" onclick="switchTab('files')" id="tab-btn-files">
+          <span class="nav-icon">📁</span> Files
+        </button>
+        <button class="sidebar-link" onclick="switchTab('backups')" id="tab-btn-backups">
+          <span class="nav-icon">🔄</span> Backups
+        </button>
+        <button class="sidebar-link" onclick="switchTab('users')" id="tab-btn-users">
+          <span class="nav-icon">👥</span> Users
+        </button>
+        <div class="sidebar-divider"></div>
+        <button class="sidebar-link" onclick="backToServers()">
+          <span class="nav-icon">←</span> All Servers
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-user" id="sidebarUser">
+      <div class="sidebar-avatar" id="sidebarAvatar">?</div>
+      <div>
+        <div class="sidebar-username" id="sidebarUsername">Loading...</div>
+        <div class="sidebar-plan" id="sidebarPlan">...</div>
+      </div>
+      <button class="sidebar-logout-btn" onclick="doLogout()" title="Logout">⎋</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="panel-main">
+    <div class="panel-topbar">
+      <div class="topbar-title" id="topbarTitle">My Servers</div>
+      <div class="topbar-breadcrumb" id="topbarBreadcrumb">Guder / <span>Servers</span></div>
+    </div>
+
+    <div class="panel-content">
+
+      <!-- SERVERS TAB -->
+      <div class="tab-content active" id="tab-servers">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <div class="stat-card-label">TOTAL SERVERS</div>
+            <div class="stat-card-value" id="statTotal">0</div>
+            <div class="stat-card-sub">Across all plans</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">ONLINE</div>
+            <div class="stat-card-value" style="color:var(--green)" id="statOnline">0</div>
+            <div class="stat-card-sub">Currently running</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">YOUR PLAN</div>
+            <div class="stat-card-value" id="statPlan">Free</div>
+            <div class="stat-card-sub">Active subscription</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">FREE SLOTS</div>
+            <div class="stat-card-value" id="statFreeSlots">1</div>
+            <div class="stat-card-sub">Remaining free servers</div>
+          </div>
+        </div>
+
+        <div class="servers-grid" id="serversGrid">
+          <!-- Populated by JS -->
+        </div>
+
+        <button class="create-server-btn" onclick="openCreateModal()">
+          <span class="plus-icon">+</span>
+          <span>Create New Server</span>
+        </button>
+      </div>
+
+      <!-- CONSOLE TAB -->
+      <div class="tab-content" id="tab-console">
+        <div class="console-controls">
+          <button class="btn-console-start" onclick="serverAction('start')">▶ Start</button>
+          <button class="btn-console-stop" onclick="serverAction('stop')">■ Stop</button>
+          <button class="btn-console-restart" onclick="serverAction('restart')">↺ Restart</button>
+          <div style="margin-left:auto; font-family:var(--font-mono); font-size:13px; color:var(--text-dim);">
+            Status: <span id="consoleServerStatus" style="color:var(--green)">Online</span>
+          </div>
+        </div>
+        <div class="console-wrapper">
+          <div class="console-titlebar">
+            <div class="console-dot red"></div>
+            <div class="console-dot yellow"></div>
+            <div class="console-dot green"></div>
+            <div class="console-name" id="consoleServerName">server — console</div>
+          </div>
+          <div class="console-output" id="consoleOutput">
+            <div class="log-line"><span class="log-time">[00:00:00]</span><span class="log-info">[INFO] Guder Panel initialized. Select a server to view its console.</span></div>
+          </div>
+          <div class="console-input-bar">
+            <span class="console-prompt">$</span>
+            <input class="console-input" id="consoleInput" placeholder="Type a command and press Enter..." autocomplete="off"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILES TAB -->
+      <div class="tab-content" id="tab-files">
+        <div class="files-toolbar">
+          <div class="files-path" id="filesPath">/ (root)</div>
+          <button class="btn-sm btn-sm-primary" style="flex:0;white-space:nowrap;" onclick="showToast('Upload coming soon', 'info')">↑ Upload</button>
+          <button class="btn-sm btn-sm-ghost" style="flex:0;white-space:nowrap;" onclick="showToast('Folder created', 'success')">+ New Folder</button>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:14px; overflow:hidden; backdrop-filter:blur(20px);">
+          <table class="files-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Modified</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="filesBody">
+              <tr><td colspan="4" style="text-align:center;color:var(--text-dim);padding:40px;">Select a server to view its files.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BACKUPS TAB -->
+      <div class="tab-content" id="tab-backups">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Backups</div>
+            <div style="font-size:13px;color:var(--text-dim);margin-top:4px;">Automatic daily snapshots of your server</div>
+          </div>
+          <button class="btn-sm btn-sm-primary" style="flex:0;padding:10px 20px;" onclick="createBackup()">+ Create Backup</button>
+        </div>
+        <div class="backup-list" id="backupList">
+          <div style="text-align:center;color:var(--text-dim);padding:60px;">Select a server to view its backups.</div>
+        </div>
+      </div>
+
+      <!-- USERS TAB -->
+      <div class="tab-content" id="tab-users">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <div>
+            <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Users</div>
+            <div style="font-size:13px;color:var(--text-dim);margin-top:4px;">Manage access to this server</div>
+          </div>
+          <button class="btn-sm btn-sm-primary" style="flex:0;padding:10px 20px;" onclick="showToast('Contact support on Discord to add users', 'info')">+ Add User</button>
+        </div>
+        <div class="users-list" id="usersList">
+          <div style="text-align:center;color:var(--text-dim);padding:60px;">Select a server to view its users.</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- CREATE SERVER MODAL -->
+<div class="panel-modal-overlay" id="createModal">
+  <div class="panel-modal">
+    <button class="panel-modal-close" onclick="closeCreateModal()">✕</button>
+    <div class="panel-modal-title">Create New Server</div>
+    <div class="panel-modal-sub">Fill in the details below. Your server will be ready in 1–2 business days.</div>
+
+    <div class="form-group">
+      <label class="form-label">SERVER NAME</label>
+      <input type="text" id="newServerName" class="form-input" placeholder="My Awesome Server"/>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">PLAN</label>
+      <div class="plan-selector" id="planSelector">
+        <div class="plan-opt selected" data-plan="free" onclick="selectPlan(this)">
+          <div class="plan-opt-name">Free</div>
+          <div class="plan-opt-price">$0/mo</div>
+          <div class="plan-opt-ram">2GB RAM</div>
+        </div>
+        <div class="plan-opt" data-plan="pro" onclick="selectPlan(this)">
+          <div class="plan-opt-name">Pro</div>
+          <div class="plan-opt-price">$2/mo</div>
+          <div class="plan-opt-ram">4GB RAM</div>
+        </div>
+        <div class="plan-opt" data-plan="ultimate" onclick="selectPlan(this)">
+          <div class="plan-opt-name">Ultimate</div>
+          <div class="plan-opt-price">$8/mo</div>
+          <div class="plan-opt-ram">8GB RAM</div>
+        </div>
+      </div>
+      <div class="form-hint" id="freeLimitHint" style="display:none;color:var(--danger)">⚠ You've used your free server slot. Please choose a paid plan.</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">SERVER TYPE</label>
+        <select class="form-select" id="newServerType">
+          <option value="vanilla">Vanilla</option>
+          <option value="paper" selected>Paper</option>
+          <option value="spigot">Spigot</option>
+          <option value="forge">Forge</option>
+          <option value="fabric">Fabric</option>
+          <option value="bungeecord">BungeeCord</option>
+          <option value="waterfall">Waterfall</option>
+          <option value="purpur">Purpur</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">MINECRAFT VERSION</label>
+        <select class="form-select" id="newServerVersion">
+          <option value="1.21.4">1.21.4 (Latest)</option>
+          <option value="1.21.3">1.21.3</option>
+          <option value="1.21.1">1.21.1</option>
+          <option value="1.20.6">1.20.6</option>
+          <option value="1.20.4">1.20.4</option>
+          <option value="1.20.1">1.20.1</option>
+          <option value="1.19.4">1.19.4</option>
+          <option value="1.18.2">1.18.2</option>
+          <option value="1.17.1">1.17.1</option>
+          <option value="1.16.5">1.16.5</option>
+          <option value="1.12.2">1.12.2</option>
+          <option value="1.8.9">1.8.9</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">SERVER REGION</label>
+        <select class="form-select" id="newServerRegion">
+          <option value="us-east">US East</option>
+          <option value="us-west">US West</option>
+          <option value="eu-west">EU West</option>
+          <option value="eu-central">EU Central</option>
+          <option value="ap-singapore">Asia Pacific</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">MAX PLAYERS</label>
+        <input type="number" id="newServerMaxPlayers" class="form-input" placeholder="20" min="1" max="1000" value="20"/>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">DIFFICULTY</label>
+      <select class="form-select" id="newServerDifficulty">
+        <option value="peaceful">Peaceful</option>
+        <option value="easy">Easy</option>
+        <option value="normal" selected>Normal</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">GAMEMODE</label>
+      <select class="form-select" id="newServerGamemode">
+        <option value="survival" selected>Survival</option>
+        <option value="creative">Creative</option>
+        <option value="adventure">Adventure</option>
+        <option value="spectator">Spectator</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">ADDITIONAL NOTES (optional)</label>
+      <textarea class="form-textarea" id="newServerNotes" placeholder="Any plugins, mods, or special requirements..."></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+      <button class="btn-submit" id="createServerBtn" onclick="submitCreateServer()">Create Server</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/panel.js"></script>
+</body>
+</html>
