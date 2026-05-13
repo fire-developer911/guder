@@ -39,7 +39,10 @@ app.use(helmet({
   crossOriginEmbedderPolicy: false,
 }));
 
-app.use(cors({ origin: false }));
+app.use(cors({ 
+  origin: 'https://guder.netlify.app',
+  credentials: true 
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET || 'Guder-cookie-secret-change-in-prod'));
 app.use(express.json({ limit: '10kb' }));
 
