@@ -26,7 +26,10 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
+      // Keep this for <script> tags
       scriptSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+      // ADD THIS LINE: This allows onclick, onmouseover, etc.
+      scriptSrcAttr: ["'unsafe-inline'"], 
       styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "fonts.gstatic.com"],
       fontSrc: ["'self'", "fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "blob:"],
